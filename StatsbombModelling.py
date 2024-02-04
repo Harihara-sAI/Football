@@ -17,12 +17,14 @@ def get_league_data(i):
     league_matches=sb.matches(competition_id=str(i),season_id='27')
     return league_matches
 
-premier_league=get_league_data(2)
-ligue_1=get_league_data(7)
+#premier_leagu_matches=get_league_data(2)
+#ligue_1=get_league_data(7)
 bundesliga=get_league_data(9)
-la_liga=get_league_data(11)
-serie_a=get_league_data(12
-                                )
+#la_liga=get_league_data(11)
+#serie_a=get_league_data(12)
+
+
+
 #%%Checks for proper Series output
 #bundesliga_matches["home_team"]=="Borussia Dortmund"
 #bundesliga_matches["away_team"]=="Borussia Dortmund"
@@ -95,11 +97,4 @@ def make_plot():
 
 # %%
 make_plot()
-# %%
-
-comps=sb.competitions()
-season_needed=comps[comps['season_id']==27]
-# %%
-season_needed
-# %%
 
