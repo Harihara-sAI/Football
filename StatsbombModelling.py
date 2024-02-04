@@ -7,7 +7,9 @@ import matplotlib.pyplot as plt
 
 
 #%%Exploratory Data Analysis
-sb.competitions()#Bundesliga competition_id='9',season_id='27'
+#season_id : Season 2015/16 = '27'
+#competition_id: Premier League = 2,Ligue 1= 7,Bundesliga= 9,La Liga = 11,Serie A = 12
+sb.competitions()
 
 
 # %%Filtering out matches that I am interested in
@@ -83,3 +85,4 @@ season_needed=comps[comps['season_id']==27]
 # %%
 season_needed
 # %%
+
