@@ -13,9 +13,16 @@ sb.competitions()
 
 
 # %%Filtering out matches that I am interested in
-bundesliga_matches=sb.matches(competition_id='9',season_id='27')
+def get_league_data(i):
+    league_matches=sb.matches(competition_id=str(i),season_id='27')
+    return league_matches
 
-
+premier_league_matches=get_league_data(2)
+ligue_1_matches=get_league_data(7)
+bundesliga_matches=get_league_data(9)
+la_liga_matches=get_league_data(11)
+serie_a_matches=get_league_data(12
+                                )
 #%%Checks for proper Series output
 bundesliga_matches["home_team"]=="Borussia Dortmund"
 bundesliga_matches["away_team"]=="Borussia Dortmund"
