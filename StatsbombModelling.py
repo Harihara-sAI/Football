@@ -12,26 +12,36 @@ import matplotlib.pyplot as plt
 sb.competitions()
 
 
-# %%Filtering out matches that I am interested in
+#%%Making function to filter out leagues that I am interested in
 def get_league_data(i):
     league_matches=sb.matches(competition_id=str(i),season_id='27')
     return league_matches
 
-premier_league_matches=get_league_data(2)
-ligue_1_matches=get_league_data(7)
-bundesliga_matches=get_league_data(9)
-la_liga_matches=get_league_data(11)
-serie_a_matches=get_league_data(12
+premier_league=get_league_data(2)
+ligue_1=get_league_data(7)
+bundesliga=get_league_data(9)
+la_liga=get_league_data(11)
+serie_a=get_league_data(12
                                 )
 #%%Checks for proper Series output
-bundesliga_matches["home_team"]=="Borussia Dortmund"
-bundesliga_matches["away_team"]=="Borussia Dortmund"
+#bundesliga_matches["home_team"]=="Borussia Dortmund"
+#bundesliga_matches["away_team"]=="Borussia Dortmund"
+
+#%%Making function to filter out matches that I am interested in
+def get_team_matches(league,team):
+    away_matches=league[league["away_team"]==str(team)]
+    home_matches=league[league["home_team"]==str(team)]
+    matches=pd.concat([home_matches,away_matches],ignore_index=True)
+    return(matches)
+
 
 
 #%%Filtering out only BVB matches, but still keeping home and away separate
-bvb_away_matches=bundesliga_matches[bundesliga_matches["away_team"]=="Borussia Dortmund"]
-bvb_home_matches=bundesliga_matches[bundesliga_matches["home_team"]=="Borussia Dortmund"]
-bvb_matches=pd.concat([bvb_home_matches,bvb_away_matches],ignore_index=True)
+#bvb_away_matches=bundesliga_matches[bundesliga_matches["away_team"]=="Borussia Dortmund"]
+#bvb_home_matches=bundesliga_matches[bundesliga_matches["home_team"]=="Borussia Dortmund"]
+#bvb_matches=pd.concat([bvb_home_matches,bvb_away_matches],ignore_index=True)
+
+bvb_matches=get_team_matches(bundesliga, "Borussia Dortmund")
 bvb_matches
 
 #%%
