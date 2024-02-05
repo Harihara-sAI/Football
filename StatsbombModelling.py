@@ -78,7 +78,7 @@ outcomes
 
 
 #%% Visualizations
-def make_plot():
+def make_pass_plot():
     pitch=Pitch(pitch_type='statsbomb')
     fig, ax = pitch.draw(figsize=(15,8))
 
@@ -100,7 +100,7 @@ def make_plot():
 
 
 # %%
-make_plot()
+make_pass_plot()
 
 
 # %%
