@@ -105,7 +105,8 @@ def make_pass_plot(pass_data):
 
 # %%
 make_pass_plot(borussia_match)
-
+n=3890347
+plt.savefig(f'{n}.png')
 
 # %%
 bvb_matches
