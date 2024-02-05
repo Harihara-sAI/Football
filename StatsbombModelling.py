@@ -86,11 +86,15 @@ def make_plot():
 
         if outcomes[i]== 'Incomplete':
             color='red'
+            n=20
+            t=True
         else:
             color='green'
+            n=100
+            t=False
 
         pitch.scatter(x_s[i], y_s[i], ax=ax, c=color)
-        pitch.lines(x_s[i], y_s[i], x_e[i], y_e[i], ax=ax, comet=True, color=color)
+        pitch.lines(x_s[i], y_s[i], x_e[i], y_e[i], ax=ax, comet=True, color=color, lw=1.5, n_segments=n, transparent=t)
 
     return(plt.title('Borussia Dortmund: Passes made under Pressure v/s Augsburg, 2015/16'))
 
@@ -98,3 +102,5 @@ def make_plot():
 # %%
 make_plot()
 
+
+# %%
