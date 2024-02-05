@@ -108,3 +108,15 @@ make_pass_plot(borussia_match)
 
 
 # %%
+bvb_matches
+m_id=3890275
+bor_dor_match=sb.events(match_id=3890275)
+bor_dor_match.columns
+
+# %%
+bor_dor_match_shot_data=bor_dor_match[['team','type','shot_type','shot_technique','location','player','shot_outcome','shot_statsbomb_xg']].reset_index()
+bor_dor_match_shot_data['type'].unique()
+# %%
+shots=bor_dor_match_shot_data[(bor_dor_match_shot_data['team']=='Borussia Dortmund') & (bor_dor_match_shot_data['type']=='Shot') & (bor_dor_match_shot_data['shot_outcome']=='Goal') ]
+shots
+# %%
