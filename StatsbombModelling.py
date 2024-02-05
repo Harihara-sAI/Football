@@ -69,38 +69,42 @@ borussia_match
 #%% Preparing for Visualizations
 borussia_match[['x_start', 'y_start']]=pd.DataFrame(borussia_match.location.to_list(), index=borussia_match.index)
 borussia_match[['x_end', 'y_end']]=pd.DataFrame(borussia_match.pass_end_location.to_list(), index=borussia_match.index)
-x_s=borussia_match['x_start'].to_list()
-y_s=borussia_match['y_start'].to_list()
-x_e=borussia_match['x_end'].to_list()
-y_e=borussia_match['y_end'].to_list()
-outcomes=borussia_match['pass_outcome'].to_list()
-outcomes
+#x_s=borussia_match['x_start'].to_list()
+#y_s=borussia_match['y_start'].to_list()
+#x_e=borussia_match['x_end'].to_list()
+#y_e=borussia_match['y_end'].to_list()
+#outcomes=borussia_match['pass_outcome'].to_list()
+#outcomes
 
 
 #%% Visualizations
-def make_pass_plot():
+def make_pass_plot(pass_data):
     pitch=Pitch(pitch_type='statsbomb')
     fig, ax = pitch.draw(figsize=(15,8))
+    success=pd.isnull(pass_data['pass_outcome'])
+    s_passes=borussia_match[success]
+    us_passes=borussia_match[~success]
+    s_x_start=s_passes['x_start'].to_list()
+    s_x_end=s_passes['x_end'].to_list()
+    s_y_start=s_passes['y_start'].to_list()
+    s_y_end=s_passes['y_end'].to_list()
+    us_x_start=us_passes['x_start'].to_list()
+    us_x_end=us_passes['x_end'].to_list()
+    us_y_start=us_passes['y_start'].to_list()
+    us_y_end=us_passes['y_end'].to_list()
 
-    for i in range(len(x_s)):
+    pitch.scatter(s_x_start,s_y_start,c='green',ax=ax)
+    pitch.scatter(us_x_start,us_y_start,c='red',ax=ax)
+    lc1=pitch.lines(s_x_start, s_y_start, s_x_end, s_y_end, lw=3, comet=True, color='green', ax=ax, label='Successful Passes',transparent=True)
+    lc2=pitch.lines(us_x_start, us_y_start, us_x_end, us_y_end, lw=3, comet=True, color='red', ax=ax, label='Unsuccessful Passes',transparent=True)
+    ax.legend(facecolor='white', edgecolor='black', fontsize=10, loc='upper left', handlelength=7)
 
-        if outcomes[i]== 'Incomplete':
-            color='red'
-            n=20
-            t=True
-        else:
-            color='green'
-            n=100
-            t=False
 
-        pitch.scatter(x_s[i], y_s[i], ax=ax, c=color)
-        pitch.lines(x_s[i], y_s[i], x_e[i], y_e[i], ax=ax, comet=True, color=color, lw=1.5, n_segments=n, transparent=t)
 
-    return(plt.title('Borussia Dortmund: Passes made under Pressure v/s Augsburg, 2015/16'))
-
+    return(ax.set_title('Borussia Dortmund: Passes made under Pressure v/s Augsburg, 2015/16', fontsize=18))
 
 # %%
-make_pass_plot()
+make_pass_plot(borussia_match)
 
 
 # %%
