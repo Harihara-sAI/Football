@@ -113,7 +113,7 @@ make_pass_plot(borussia_match)
 # %%
 bvb_matches
 m_id=3890275
-bor_dor_match=sb.events(match_id=3890275)
+bor_dor_match=sb.events(match_id=3890347)
 bor_dor_match.columns
 
 # %%
@@ -122,4 +122,32 @@ bor_dor_match_shot_data['type'].unique()
 # %%
 shots=bor_dor_match_shot_data[(bor_dor_match_shot_data['team']=='Borussia Dortmund') & (bor_dor_match_shot_data['type']=='Shot') & (bor_dor_match_shot_data['shot_outcome']=='Goal') ]
 shots
+shots[['x_start', 'y_start']]=pd.DataFrame(shots.location.to_list(), index=shots.index)
+# %%
+
+from mplsoccer import VerticalPitch
+
+def make_shot_plot(shot_data):
+    pitch = VerticalPitch(pad_bottom=0.5,  half=True,  goal_type='box')
+    fig , ax =pitch.draw(figsize=(15,8))
+    penalty=shot_data['shot_outcome']=='Penalty'
+    open_play_goals=shot_data[~penalty]
+    penalty_goals=shot_data[penalty]
+    x_s=open_play_goals['x_start'].to_list()
+    y_s=open_play_goals['y_start'].to_list()
+    s_x_g=open_play_goals['shot_statsbomb_xg']
+
+    sc=pitch.scatter(x_s, y_s,s=((s_x_g*500)+100), marker='football',ax=ax, label='Goals')
+    ax.legend(facecolor='white', edgecolor='black', fontsize=20, loc='upper left')
+    ax.set_title('(Greater size refers to greater xG)', fontsize=10)
+    fig.suptitle('Borussia Dortmund: Goals scored v/s Augsburg, 2015/16', fontsize=18)
+    n='Borussia Dortmund Goals vs Augsburg'
+    fig.savefig(f'{n}.png')
+
+    return(fig.show)
+    
+
+# %%
+make_shot_plot(shots)
+
 # %%
