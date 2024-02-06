@@ -120,9 +120,9 @@ bor_dor_match.columns
 bor_dor_match_shot_data=bor_dor_match[['team','type','shot_type','shot_technique','location','player','shot_outcome','shot_statsbomb_xg']].reset_index()
 bor_dor_match_shot_data['type'].unique()
 # %%
-shots=bor_dor_match_shot_data[(bor_dor_match_shot_data['team']=='Borussia Dortmund') & (bor_dor_match_shot_data['type']=='Shot') & (bor_dor_match_shot_data['shot_outcome']=='Goal') ]
-shots
+shots=bor_dor_match_shot_data[(bor_dor_match_shot_data['team']=='Borussia Dortmund') & (bor_dor_match_shot_data['type']=='Shot') ]
 shots[['x_start', 'y_start']]=pd.DataFrame(shots.location.to_list(), index=shots.index)
+shots['shot_outcome'].unique()
 # %%
 
 from mplsoccer import VerticalPitch
@@ -131,17 +131,29 @@ def make_shot_plot(shot_data):
     pitch = VerticalPitch(pad_bottom=0.5,  half=True,  goal_type='box')
     fig , ax =pitch.draw(figsize=(15,8))
     penalty=shot_data['shot_outcome']=='Penalty'
-    open_play_goals=shot_data[~penalty]
-    penalty_goals=shot_data[penalty]
-    x_s=open_play_goals['x_start'].to_list()
-    y_s=open_play_goals['y_start'].to_list()
-    s_x_g=open_play_goals['shot_statsbomb_xg']
+    open_play_shots=shot_data[~penalty]
+    penalty_shots=shot_data[penalty]
+    #['Wayward', 'Blocked', 'Off T', 'Goal', 'Saved']
+    Wayward_shots=shot_data[shot_data['shot_outcome']=='Wayward']
+    Blocked_shots=shot_data[shot_data['shot_outcome']=='Blocked']
+    Off_T_shots=shot_data[shot_data['shot_outcome']=='Off T']
+    Goals=shot_data[shot_data['shot_outcome']=='Goal']
+    Saved_shots=shot_data[shot_data['shot_outcome']=='Saved']
 
-    sc=pitch.scatter(x_s, y_s,s=((s_x_g*500)+100), marker='football',ax=ax, label='Goals')
-    ax.legend(facecolor='white', edgecolor='black', fontsize=20, loc='upper left')
+    goals=pitch.scatter(Goals['x_start'], Goals['y_start'],s=((Goals['shot_statsbomb_xg']*500)+100), marker='football',edgecolors='#000000',ax=ax, label='Goals')
+
+    wayward=pitch.scatter(Wayward_shots['x_start'], Wayward_shots['y_start'],s=((Wayward_shots['shot_statsbomb_xg']*500)+100), marker='^',edgecolors='#000000',c='#c70000',ax=ax, label='Wayward shots')
+
+    off_t=pitch.scatter(Off_T_shots['x_start'], Off_T_shots['y_start'],s=((Off_T_shots['shot_statsbomb_xg']*500)+100), marker='X',edgecolors='#000000',c='#006f3c',ax=ax, label='Off Target')
+
+    blocked=pitch.scatter(Blocked_shots['x_start'], Blocked_shots['y_start'],s=((Blocked_shots['shot_statsbomb_xg']*500)+100), marker='h',edgecolors='#000000',c='#f9a73e',ax=ax, label='Blocked')
+
+    saved=pitch.scatter(Saved_shots['x_start'], Saved_shots['y_start'],s=((Saved_shots['shot_statsbomb_xg']*500)+100), marker='o',edgecolors='#000000',c='#264b96',ax=ax, label='Saved')
+
+    ax.legend(facecolor='#4a4e69', edgecolor='white',labelcolor='white', fontsize=20, loc='lower left')
     ax.set_title('(Greater size refers to greater xG)', fontsize=10)
-    fig.suptitle('Borussia Dortmund: Goals scored v/s Augsburg, 2015/16', fontsize=18)
-    n='Borussia Dortmund Goals vs Augsburg'
+    fig.suptitle('Borussia Dortmund: Shots attempted v/s Augsburg, 2015/16', fontsize=18)
+    n='Borussia Dortmund Shots vs Augsburg'
     fig.savefig(f'{n}.png')
 
     return(fig.show)
