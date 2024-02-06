@@ -98,15 +98,17 @@ def make_pass_plot(pass_data):
     lc1=pitch.lines(s_x_start, s_y_start, s_x_end, s_y_end, lw=3, comet=True, color='green', ax=ax, label='Successful Passes',transparent=True)
     lc2=pitch.lines(us_x_start, us_y_start, us_x_end, us_y_end, lw=3, comet=True, color='red', ax=ax, label='Unsuccessful Passes',transparent=True)
     ax.legend(facecolor='white', edgecolor='black', fontsize=10, loc='upper left', handlelength=7)
+    ax.set_title('Borussia Dortmund: Passes made under Pressure v/s Augsburg, 2015/16', fontsize=18)
+    n='Borussia Dortmund Passes made under Pressure vs Augsburg'
+    fig.savefig(f'{n}.png')
 
 
 
-    return(ax.set_title('Borussia Dortmund: Passes made under Pressure v/s Augsburg, 2015/16', fontsize=18))
+    return(fig.show)
 
 # %%
 make_pass_plot(borussia_match)
-n=3890347
-plt.savefig(f'{n}.png')
+
 
 # %%
 bvb_matches
