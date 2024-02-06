@@ -93,8 +93,8 @@ def make_pass_plot(pass_data):
     us_y_start=us_passes['y_start'].to_list()
     us_y_end=us_passes['y_end'].to_list()
 
-    pitch.scatter(s_x_start,s_y_start,c='green',ax=ax)
-    pitch.scatter(us_x_start,us_y_start,c='red',ax=ax)
+    pitch.scatter(s_x_start,s_y_start,c='green',ax=ax,label='Origin of successful pass')
+    pitch.scatter(us_x_start,us_y_start,c='red',ax=ax,label='Origin of unsuccessful pass')
     lc1=pitch.lines(s_x_start, s_y_start, s_x_end, s_y_end, lw=3, comet=True, color='green', ax=ax, label='Successful Passes',transparent=True)
     lc2=pitch.lines(us_x_start, us_y_start, us_x_end, us_y_end, lw=3, comet=True, color='red', ax=ax, label='Unsuccessful Passes',transparent=True)
     ax.legend(facecolor='white', edgecolor='black', fontsize=10, loc='upper left', handlelength=7)
